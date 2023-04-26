@@ -17,7 +17,7 @@ public class SaveC extends JPanel  {
 	private JFileChooser escolhaDir;
 	private String escolhaTitulo = "Escolher diretorio";
 	
-	private File dir;
+	private static File dir;
 	
 	private FileWriter arquivo;
 	private PrintWriter escreverArquivo;
@@ -30,12 +30,12 @@ public class SaveC extends JPanel  {
 		escolhaDir.setAcceptAllFileFilterUsed(false);
 		
 		if (escolhaDir.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-			this.dir = escolhaDir.getSelectedFile();
+			dir = escolhaDir.getSelectedFile();
 		}
 	}
 	
 	public void SaveFile(int id, String text) throws IOException {
-		arquivo = new FileWriter(this.dir + String.format("/%d.txt", id));
+		arquivo = new FileWriter(dir + String.format("/%d.txt", id));
 		escreverArquivo = new PrintWriter(arquivo);
 		escreverArquivo.printf(text);
 		arquivo.close();
@@ -46,7 +46,7 @@ public class SaveC extends JPanel  {
 	}
 	
 	public void SetDir() {
-		if (this.dir == null) {
+		if (dir == null) {
 			WindowOpener();
 		}
 	}

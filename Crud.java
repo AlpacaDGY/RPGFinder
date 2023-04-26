@@ -10,7 +10,10 @@ import java.util.Scanner;
 public class Crud {
 	
 	private SaveC save = new SaveC();
+	private static Scanner sc = new Scanner(System.in);
 	private String text;
+	public File arq;
+	public static int idSelecionar;
 	
 	public void CreateCreature(int id, int hp, int mp, String nome, String tipo, String[] ataques) throws IOException {
 		text = String.format("%d\n"
@@ -20,26 +23,30 @@ public class Crud {
 							+ "%s\n"
 							+ "%s", 
 							id, hp, mp, nome, tipo, Arrays.toString(ataques));
-		save.SetDir();
 		save.SaveFile(id, text);
 	}
 	
-	public File ReadCreature(int id) throws FileNotFoundException {
-		save.SetDir();
-		File arq = new File(String.format("%s/%d.txt", save.GetDir(), id));
+	public File ReadCreature() throws FileNotFoundException {
 		
-		try {
-			Scanner sc = new Scanner(arq);
-			String[] array = {"Creature ID: ", "HP: ", "MP: ", "Nome: ", "Tipo: ", "Ataques: "};
-			int i = 0;
-			while(sc.hasNextLine()) {
-				System.out.print(array[i]);
-				System.out.println(sc.nextLine());
-				i++;
+		while (true) {
+			System.out.print("\nDigite o ID da criatura: ");
+			idSelecionar = sc.nextInt();
+			arq = new File(String.format("%s/%d.txt", save.GetDir(), idSelecionar));
+			if (arq.exists()){
+				break;
+			}
+			else{
+				System.out.println("ID inexistente, tente novamente.");
 			}
 		}
-		catch(Exception e) {
-			System.out.println("ID inexistente ou não encontrado, tente novamente");
+			
+		Scanner sc = new Scanner(arq);
+		String[] array = {"Creature ID: ", "HP: ", "MP: ", "Nome: ", "Tipo: ", "Ataques: "};
+		int i = 0;
+		while(sc.hasNextLine()) {
+			System.out.print(array[i]);
+			System.out.println(sc.nextLine());
+			i++;
 		}
 		
 		return arq;
@@ -47,7 +54,7 @@ public class Crud {
 	
 	public void AlterCreature(int id, int valor, String newValue) throws IOException {
 		
-		File arq = ReadCreature(id);
+		arq = ReadCreature();
 		
 		List<String> lines = Files.readAllLines(arq.toPath(), StandardCharsets.UTF_8);
 		lines.set(valor, newValue);

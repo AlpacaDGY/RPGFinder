@@ -1,4 +1,5 @@
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ public class Menu {
 	private Scanner sc = new Scanner(System.in);
 	private Crud crud = new Crud();
 	
-	public void MenuPrincipal() {
+	public void MenuPrincipal() throws FileNotFoundException {
 		System.out.print("\nBem-vindo ao RPGFinder\n\n"
 						+ "1 - Criar nova criatura.\n"
 						+ "2 - Alterar criatura.\n"
@@ -37,7 +38,7 @@ public class Menu {
 		
 	}
 	
-	public void Selecionar(String titulo, int v) {
+	public void Selecionar(String titulo, int v) throws FileNotFoundException {
 		System.out.print("\n"+ titulo + "\n" +
 						"1 - Continuar\n"
 						+ "2 - Voltar\n"
@@ -105,12 +106,45 @@ public class Menu {
 		
 	}
 
-	private void MenuAlterar() {
+	private void MenuAlterar() throws FileNotFoundException {
+		System.out.print("\nDigite o ID da criatura: ");
+		int idSelecionar = sc.nextInt();
+		
+		crud.ReadCreature(idSelecionar);
+		
+		System.out.print("\nO que deseja alterar?\n"
+				+ "1 - HP\n"
+				+ "2 - MP\n"
+				+ "3 - Nome\n"
+				+ "4 - Tipo\n"
+				+ "5 - Ataques\n"
+				+ "Digite a opção: ");
+		int opcaoAlterar = sc.nextInt();
+		
+		System.out.print("\nDigite a alteração: ");
+		String newValue = sc.next();
+		
+
+		try {
+			crud.AlterCreature(idSelecionar, opcaoAlterar, newValue);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		crud.ReadCreature(idSelecionar);
 		
 	}
 	
 	private void MenuVisualizar() {
-		
+		System.out.print("\nDigite o ID da criatura: ");
+		int idSelecionar = sc.nextInt();
+		try {
+			crud.ReadCreature(idSelecionar);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

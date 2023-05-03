@@ -49,17 +49,27 @@ public class Crud {
 			i++;
 		}
 		
+		sc.close();
 		return arq;
 	}
 	
 	public void AlterCreature(int id, int valor, String newValue) throws IOException {
 		
-		arq = ReadCreature();
-		
 		List<String> lines = Files.readAllLines(arq.toPath(), StandardCharsets.UTF_8);
 		lines.set(valor, newValue);
 		Files.write(arq.toPath(), lines, StandardCharsets.UTF_8);
 		
+	}
+	
+	public void DeleteCreature(int id) throws IOException {
+		arq = new File(String.format("%s\\%d.txt", save.GetDir(), id));
+		if (arq.exists()) {
+			arq.delete();
+			System.out.println("Arquivo deletado com sucesso.");
+		}
+		else {
+			System.out.println("ID incorreto ou inexistente.");
+		}
 	}
 	
 }

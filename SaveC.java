@@ -35,7 +35,7 @@ public class SaveC extends JPanel  {
 	}
 	
 	public void SaveFile(int id, String text) throws IOException {
-		arquivo = new FileWriter(dir + String.format("/%d.txt", id));
+		arquivo = new FileWriter(dir + String.format("\\%d.txt", id));
 		escreverArquivo = new PrintWriter(arquivo);
 		escreverArquivo.printf(text);
 		arquivo.close();

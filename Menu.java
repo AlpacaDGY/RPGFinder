@@ -13,7 +13,8 @@ public class Menu {
 						+ "1 - Criar nova criatura.\n"
 						+ "2 - Alterar criatura.\n"
 						+ "3 - Visualizar criatura.\n"
-						+ "4 - Sair\n\n"
+						+ "4 - Deletar criatura\n"
+						+ "5 - Sair\n\n"
 						+ "Digite a opção: ");
 		
 		int escolha = sc.nextInt();
@@ -30,6 +31,9 @@ public class Menu {
 					Selecionar("Menu Visualizar", 3);
 					break;
 				case 4:
+					Selecionar("Menu Deletar", 4);
+					break;
+				case 5:
 					System.exit(0);
 				default:
 					System.out.println("Escolha inválida, tente novamente.");
@@ -57,6 +61,9 @@ public class Menu {
 						break;
 					case 3:
 						MenuVisualizar();
+						break;
+					case 4:
+						MenuDeletar();
 						break;
 				}
 				break;
@@ -120,7 +127,8 @@ public class Menu {
 		int opcaoAlterar = sc.nextInt();
 		
 		System.out.print("\nDigite a alteração: ");
-		String newValue = sc.next();
+		sc.nextLine();
+		String newValue = sc.nextLine();
 		
 		crud.AlterCreature(Crud.idSelecionar, opcaoAlterar, newValue);
 		
@@ -128,6 +136,12 @@ public class Menu {
 	
 	private void MenuVisualizar() throws FileNotFoundException {
 		crud.ReadCreature();
+	}
+	
+	private void MenuDeletar() throws IOException {
+		System.out.print("\nID para deletar: ");
+		int idDeletar = sc.nextInt();
+		crud.DeleteCreature(idDeletar);
 	}
 	
 }

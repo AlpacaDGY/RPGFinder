@@ -202,6 +202,7 @@ public class Menu {
 			int idDeletar = sc.nextInt();
 			if(save.VerifyFileExist(idDeletar)) {
 				crud.DeleteCreature(idDeletar);
+				System.out.println("ID deletado com sucesso.");
 				break;
 			}
 			else{

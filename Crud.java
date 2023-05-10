@@ -10,10 +10,8 @@ import java.util.Scanner;
 public class Crud {
 	
 	private SaveC save = new SaveC();
-	private static Scanner sc = new Scanner(System.in);
 	private String text;
-	public File arq;
-	public static int idSelecionar;
+	public static File arq;
 	
 	public void CreateCreature(int id, int hp, int mp, String nome, String tipo, String[] ataques) throws IOException {
 		text = String.format("%d\n"
@@ -26,31 +24,18 @@ public class Crud {
 		save.SaveFile(id, text);
 	}
 	
-	public File ReadCreature() throws FileNotFoundException {
-		
-		while (true) {
-			System.out.print("\nDigite o ID da criatura: ");
-			idSelecionar = sc.nextInt();
-			arq = new File(String.format("%s/%d.txt", save.GetDir(), idSelecionar));
-			if (arq.exists()){
-				break;
-			}
-			else{
-				System.out.println("ID inexistente, tente novamente.");
-			}
-		}
+	public void ReadCreature(int id) throws FileNotFoundException {
 			
 		Scanner sc = new Scanner(arq);
 		String[] array = {"Creature ID: ", "HP: ", "MP: ", "Nome: ", "Tipo: ", "Ataques: "};
 		int i = 0;
+		System.out.println("\n");
 		while(sc.hasNextLine()) {
 			System.out.print(array[i]);
 			System.out.println(sc.nextLine());
 			i++;
 		}
-		
 		sc.close();
-		return arq;
 	}
 	
 	public void AlterCreature(int id, int valor, String newValue) throws IOException {
@@ -61,15 +46,35 @@ public class Crud {
 		
 	}
 	
+	public void AlterAtaques(int id, int valor) throws IOException {
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		
+		List<String> lines = Files.readAllLines(arq.toPath(), StandardCharsets.UTF_8);
+		String ataques = lines.get(5).replace('[', ' ').replace(']', ' ').strip();
+		String[] lista_ataques = ataques.split(", ");
+
+		for(int i = 0; i < lista_ataques.length; i++) {
+			System.out.printf("\n%d - %s", i+1, lista_ataques[i]);
+		}
+		
+		System.out.print("\nQual ataque deseja mudar: ");
+		int valorTrocar = sc.nextInt();
+		
+		System.out.print("\nNovo nome do ataque: ");
+		sc.nextLine();
+		String ataqueTrocar = sc.nextLine();
+		
+		lista_ataques[valorTrocar-1] = ataqueTrocar;
+
+		lines.set(5, Arrays.toString(lista_ataques));
+		Files.write(arq.toPath(), lines, StandardCharsets.UTF_8);
+	}
+	
 	public void DeleteCreature(int id) throws IOException {
 		arq = new File(String.format("%s\\%d.txt", save.GetDir(), id));
-		if (arq.exists()) {
-			arq.delete();
-			System.out.println("Arquivo deletado com sucesso.");
-		}
-		else {
-			System.out.println("ID incorreto ou inexistente.");
-		}
+		arq.delete();
+
 	}
 	
 }

@@ -18,6 +18,7 @@ public class SaveC extends JPanel  {
 	private String escolhaTitulo = "Escolher diretorio";
 	
 	private static File dir;
+	public static File arq;
 	
 	private FileWriter arquivo;
 	private PrintWriter escreverArquivo;
@@ -51,5 +52,20 @@ public class SaveC extends JPanel  {
 		}
 	}
 	
+	public boolean VerifyFileExist(int id) {
+		
+		File arq;
+		
+		while (true) {
+			arq = new File(String.format("%s/%d.txt", dir, id));
+			if (arq.exists()){
+				Crud.arq = arq;
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
 	
 }

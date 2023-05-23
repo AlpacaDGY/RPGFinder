@@ -55,24 +55,27 @@ public class Menu {
 			
 			int escolha = sc.nextInt();
 			
-			switch(escolha) {
+			switch (escolha) {
 				case 1:
-					Selecionar("Menu Criação", 1);
-					break;
+					switch(v) {
+						case 1:
+							MenuCriar();
+							break;
+						case 2:
+							MenuAlterar();
+							break;
+						case 3:
+							MenuVisualizar();
+							break;
+						case 4:
+							MenuDeletar();
+							break;
+					}
 				case 2:
-					Selecionar("Menu Alterar", 2);
-					break;
-				case 3:
-					Selecionar("Menu Visualizar", 3);
-					break;
-				case 4:
-					Selecionar("Menu Deletar", 4);
-					break;
-				case 5:
-					System.exit(0);
+					MenuPrincipal();
+					
 				default:
-					System.out.print("\nEscolha inválida, tente novamente.\n"
-							+ "Digite um novo valor: ");
+					System.out.println("Valor inválido, tente novamente.");
 			}
 		}
 	}
